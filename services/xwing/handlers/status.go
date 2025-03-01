@@ -1,10 +1,15 @@
 package handlers
 
 import (
-    "github.com/gin-gonic/gin"
-    "net/http"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func StatusHandler(c *gin.Context) {
-    c.String(http.StatusOK, "torpedoes ready")
+	c.String(http.StatusOK, "torpedoes ready")
+}
+
+func LaunchTorpedoHander(c *gin.Context) {
+	c.String(http.StatusOK, "Launching Torpedo")
 }

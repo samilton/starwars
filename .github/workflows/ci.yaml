@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v14
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+
+    - name: Set up Nix Flakes
+      run: |
+        nix-env -iA nixpkgs.nixFlakes
+
+    - name: Build with Nix Flake
+      run: |
+        nix build .#defaultPackage.x86_64-linux
+
+    - name: Run tests
+      run: |
+        nix flake check
